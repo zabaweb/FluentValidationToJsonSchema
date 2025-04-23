@@ -7,7 +7,7 @@
     
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>FluentValidationToJsonSchema</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>zabaweb</Authors>
     <Description>A library to convert FluentValidation rules to JSON Schema.</Description>
     <PackageTags>FluentValidation;JSON;Schema</PackageTags>
