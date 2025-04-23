@@ -15,7 +15,7 @@ public abstract class TestBase
         Test(expectedSchema, validator);
     }
 
-    public void Test(JObject expectedSchema, IValidator validator)
+    public void Test(JObject expectedSchema, IValidator? validator)
     {
         var schema = parser.Parse(validator);
         schema.Should().BeEquivalentTo(expectedSchema);
