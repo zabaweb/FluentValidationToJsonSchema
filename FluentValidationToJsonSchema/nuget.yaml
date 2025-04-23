@@ -1,0 +1,44 @@
+name: Publish NuGet Package
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    runs-on: windows-latest
+
+    steps:
+    # Checkout the repository
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Setup .NET environment
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '6.0.x' # Use .NET 6 SDK for compatibility
+
+    # Restore dependencies
+    - name: Restore dependencies
+      run: dotnet restore
+
+    # Build the project
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    # Run tests
+    - name: Run tests
+      run: dotnet test --no-build --verbosity normal
+
+    # Pack the NuGet package
+    - name: Pack NuGet package
+      run: dotnet pack --configuration Release --no-build --output ./nupkg
+
+    # Publish the NuGet package
+    - name: Publish to NuGet
+      env:
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      run: dotnet nuget push ./nupkg/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
