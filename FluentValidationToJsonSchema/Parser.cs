@@ -71,16 +71,62 @@ namespace FluentValidatorToJsonSchema
                 case "NotNullValidator":
                     ProcessNotNullValidator(component, member, propertyObject);
                     break;
+                case "RegularExpressionValidator":
+                    ProcessRegularExpressionValidator(component, member, propertyObject);
+                    break;
+                case "NotEmptyValidator":
+                    ProcessNotEmptyValidator(component, member, propertyObject);
+                    break;
                 default:
                     break;
             }
         }
+
+        private void ProcessRegularExpressionValidator(IRuleComponent component, MemberInfo member, JObject propertyObject)
+        {
+            var regexValidator = component.Validator as FluentValidation.Validators.IRegularExpressionValidator;
+
+            if (regexValidator == null)
+            {
+                throw new InvalidOperationException("Expected a RegularExpressionValidator.");
+            }
+
+            propertyObject["type"] = "string";
+            propertyObject["pattern"] = regexValidator.Expression;
+        }
+
 
         private void ProcessNotNullValidator(IRuleComponent component, MemberInfo member, JObject propertyObject)
         {
             propertyObject.Remove("type");
             var propertyTypeName = MemberInfoToTypeName(member);
             propertyObject.Add("type", new JArray { propertyTypeName });
+        }
+
+
+        private void ProcessNotEmptyValidator(IRuleComponent component, MemberInfo member, JObject propertyObject)
+        {
+            var propertyTypeName = MemberInfoToTypeName(member);
+
+            switch (propertyTypeName)
+            {
+                case "string":
+                    // For strings, "NotEmpty" means it must have a minimum length of 1
+                    propertyObject["type"] = "string";
+                    propertyObject["minLength"] = 1;
+                    break;
+
+                case "array":
+                    // For arrays, "NotEmpty" means it must have at least one item
+                    propertyObject["type"] = "array";
+                    propertyObject["minItems"] = 1;
+                    break;
+
+                default:
+                    // For other types, ensure "NotEmpty" is represented as a non-nullable type
+                    propertyObject["type"] = propertyTypeName;
+                    break;
+            }
         }
 
         private string MemberInfoToTypeName(MemberInfo member)
@@ -107,6 +153,8 @@ namespace FluentValidatorToJsonSchema
                     return "number";
                 case "Object":
                     return "object";
+                case "List`1":
+                    return "array";
                 default:
                     return "any";
             }
