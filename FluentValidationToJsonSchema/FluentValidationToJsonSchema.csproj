@@ -1,31 +1,49 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0;net8.0;netstandard2.0</TargetFrameworks>
-	<PackageLicenseExpression>MIT</PackageLicenseExpression>
-	<PackageReadmeFile>README.md</PackageReadmeFile>
-    
-	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageId>FluentValidationToJsonSchema</PackageId>
-    <Version>0.1.1</Version>
-    <Authors>zabaweb</Authors>
-    <Description>A library to convert FluentValidation rules to JSON Schema.</Description>
-    <PackageTags>FluentValidation;JSON;Schema</PackageTags>
-    <RepositoryUrl>https://github.com/zabaweb/FluentValidationToJsonSchema</RepositoryUrl>
-    <LicenseUrl>https://opensource.org/licenses/MIT</LicenseUrl>
-    <OutputPath>bin\Release</OutputPath>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net7.0;net8.0;netstandard2.0</TargetFrameworks>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 
-  <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="11.9.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-  </ItemGroup>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageId>FluentValidationToJsonSchema</PackageId>
+		<Version>0.1.2</Version>
+		<Authors>zabaweb</Authors>
+		<Description>A library to convert FluentValidation rules to JSON Schema.</Description>
+		<PackageTags>FluentValidation;JSON;Schema</PackageTags>
+		<RepositoryUrl>https://github.com/zabaweb/FluentValidationToJsonSchema</RepositoryUrl>
+		<LicenseUrl>https://opensource.org/licenses/MIT</LicenseUrl>
+		<OutputPath>bin\Release</OutputPath>
+	</PropertyGroup>
+	<PropertyGroup>
+		<!--Enable Source Link-->
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>
+	<PropertyGroup>
+		<!--Generate Symbols and Create a Symbols Package-->
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
+	<PropertyGroup>
+		<!--Enable Deterministic Builds-->
+		<Deterministic>true</Deterministic>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="FluentValidation" Version="11.9.0" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="README.md">
-	  <Pack>True</Pack>
-	  <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
 </Project>

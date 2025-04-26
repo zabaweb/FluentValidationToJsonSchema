@@ -5,6 +5,6 @@ namespace FluentValidatorToJsonSchema
 {
     public interface IParser
     {
-        JObject Parse(IValidator validator);
+        JObject Parse(IValidator validator, bool verbose = false);
     }
 }
